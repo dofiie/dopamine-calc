@@ -125,7 +125,7 @@ python -m dop predict
 ---
 
 # 📁 Project Structure
-
+```
 dop/
 │
 ├── main.py
@@ -134,7 +134,7 @@ dop/
 ├── models.py
 ├── utils.py
 └── data.json
-
+```
 Architecture Layers:
 
 - CLI Layer → main.py
