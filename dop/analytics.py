@@ -8,6 +8,7 @@ from math import sqrt
 from dop.models import Entry
 from dop.utils import clamp
 
+
 def detect_sleep_debt(entries: list[Entry], ideal_sleep: float = 7.0) -> float:
     """Calculate cumulative sleep debt over recent entries."""
     if not entries:
@@ -189,3 +190,34 @@ def predict_from_history(
     mood = sum(weight * item.mood for weight, item in top_neighbors) / total_weight
 
     return {"focus": round(clamp(focus, 1, 10), 2), "mood": round(clamp(mood, 1, 10), 2)}
+
+
+
+def calculate_focus(deep_work: int, distraction: int) -> int:
+    """
+    Calculate focus score from behavioral inputs.
+    deep_work: 0–2
+    distraction: 0–2
+    """
+    score = (deep_work * 4) + (distraction * 3) + 1
+    return int(clamp(score, 1, 10))
+
+
+def calculate_mood(stability: int, satisfaction: int) -> int:
+    """
+    Calculate mood score from behavioral inputs.
+    stability: 0–2
+    satisfaction: 0–2
+    """
+    score = (stability * 3) + (satisfaction * 3) + 2
+    return int(clamp(score, 1, 10))
+
+
+def calculate_energy(fatigue: int, sharpness: int) -> int:
+    """
+    Calculate energy score from behavioral inputs.
+    fatigue: 0–2
+    sharpness: 0–2
+    """
+    score = (fatigue * 3) + (sharpness * 3) + 2
+    return int(clamp(score, 1, 10))

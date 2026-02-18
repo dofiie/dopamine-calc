@@ -5,7 +5,21 @@ from __future__ import annotations
 import argparse
 from datetime import date, timedelta
 from dop.utils import Color, progress_bar, float_fmt
-from dop.analytics import detect_flags, detect_sleep_debt, predict_crash_risk
+from dop.analytics import (
+    average,
+    calculate_des,
+    calculate_dls,
+    detect_flags,
+    detect_optimal_zone,
+    pearson_correlation,
+    predict_from_history,
+    calculate_focus,
+    calculate_mood,
+    calculate_energy,
+    detect_sleep_debt,
+    predict_crash_risk
+)
+
 from dop.storage import load_entries
 from dop.analytics import (
     average,
@@ -29,25 +43,81 @@ from dop.utils import (
 
 
 def prompt_entry() -> Entry:
-    """Prompt user for a full entry and return validated model."""
-    print("\nEnter today's data:")
+    """Prompt user for behavioral-based entry."""
+
+    print("\nEnter today's data:\n")
+
+    # =====================
+    # Stimulus Inputs
+    # =====================
     coffee = int(prompt_value("Coffee cups: ", int))
     cig = int(prompt_value("Cigarettes: ", int))
     sleep = float(prompt_value("Sleep hours: ", float))
     gaming = float(prompt_value("Gaming hours: ", float))
     coding = float(prompt_value("Coding hours: ", float))
-    mood = int(prompt_value("Mood (1-10): ", int))
-    focus = int(prompt_value("Focus (1-10): ", int))
-    energy = int(prompt_value("Energy (1-10): ", int))
 
     validate_non_negative("Coffee", coffee)
     validate_non_negative("Cigarettes", cig)
     validate_sleep(sleep)
     validate_non_negative("Gaming", gaming)
     validate_non_negative("Coding", coding)
-    validate_score("Mood", mood)
-    validate_score("Focus", focus)
-    validate_score("Energy", energy)
+
+    print("\n--- Behavioral Assessment ---")
+
+    # =====================
+    # Focus Behavioral Inputs
+    # =====================
+    print("\nFocus Assessment:")
+    print("Deep Work Capability:")
+    print("0 = Couldn't focus")
+    print("1 = Some focus")
+    print("2 = Deep focus possible")
+    deep_work = int(prompt_value("Select (0-2): ", int))
+
+    print("Distraction Level:")
+    print("0 = Constantly distracted")
+    print("1 = Sometimes distracted")
+    print("2 = Rarely distracted")
+    distraction = int(prompt_value("Select (0-2): ", int))
+
+    # =====================
+    # Mood Behavioral Inputs
+    # =====================
+    print("\nMood Assessment:")
+    print("Emotional Stability:")
+    print("0 = Irritable / unstable")
+    print("1 = Normal")
+    print("2 = Calm / positive")
+    stability = int(prompt_value("Select (0-2): ", int))
+
+    print("Satisfaction With Day:")
+    print("0 = Bad day")
+    print("1 = Neutral")
+    print("2 = Good day")
+    satisfaction = int(prompt_value("Select (0-2): ", int))
+
+    # =====================
+    # Energy Behavioral Inputs
+    # =====================
+    print("\nEnergy Assessment:")
+    print("Physical Fatigue:")
+    print("0 = Exhausted")
+    print("1 = Normal")
+    print("2 = Energized")
+    fatigue = int(prompt_value("Select (0-2): ", int))
+
+    print("Mental Sharpness:")
+    print("0 = Foggy")
+    print("1 = Normal")
+    print("2 = Sharp")
+    sharpness = int(prompt_value("Select (0-2): ", int))
+
+    # =====================
+    # Calculate Derived Scores
+    # =====================
+    focus = calculate_focus(deep_work, distraction)
+    mood = calculate_mood(stability, satisfaction)
+    energy = calculate_energy(fatigue, sharpness)
 
     des = calculate_des(focus, mood, energy, sleep, coffee, cig)
     dls = calculate_dls(coffee, cig, gaming)
