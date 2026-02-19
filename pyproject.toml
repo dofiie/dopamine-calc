@@ -1,0 +1,9 @@
+[project]
+name = "dop"
+version = "0.1.0"
+description = "Offline Dopamine Optimization CLI"
+authors = [{name = "Sakar"}]
+requires-python = ">=3.11"
+
+[project.scripts]
+dop = "dop.main:main"

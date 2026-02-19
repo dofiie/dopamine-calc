@@ -1,0 +1,28 @@
+[
+  {
+    "date": "2026-02-18",
+    "coffee": 4,
+    "cig": 4,
+    "sleep": 3.0,
+    "gaming": 0.0,
+    "coding": 2.0,
+    "mood": 8,
+    "focus": 5,
+    "energy": 5,
+    "des": 4.65,
+    "dls": 8.0
+  },
+  {
+    "date": "2026-02-19",
+    "coffee": 3,
+    "cig": 5,
+    "sleep": 2.0,
+    "gaming": 5.0,
+    "coding": 2.0,
+    "mood": 10,
+    "focus": 10,
+    "energy": 10,
+    "des": 8.4,
+    "dls": 13.0
+  }
+]

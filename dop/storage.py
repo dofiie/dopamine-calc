@@ -68,3 +68,11 @@ def get_entry_by_date(target_date: str, path: Path = DATA_FILE) -> Entry | None:
         if entry.date == target_date:
             return entry
     return None
+
+
+
+def remove_entry_by_date(target_date: str, path: Path = DATA_FILE) -> None:
+    """Remove entry for a specific date."""
+    entries = load_entries(path)
+    updated = [entry for entry in entries if entry.date != target_date]
+    save_entries(updated, path)

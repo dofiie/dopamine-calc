@@ -1,128 +1,94 @@
-# 🧠 DOP — Offline Dopamine Optimization CLI
+# 🧠 DOP — Dopamine Optimization CLI
 
-DOP is a fully offline behavioral analytics engine built in Python.
+DOP is an offline behavioral analytics CLI that models cognitive performance using structured behavioral inputs instead of vague 1–10 ratings.
 
-It tracks daily cognitive inputs (sleep, coffee, cigarettes, etc.) and mental outputs (focus, mood, energy), then computes performance metrics, detects patterns, and predicts future outcomes.
+It tracks stimulation, sleep, behavioral focus quality, and emotional stability — then computes efficiency metrics, sleep debt, and crash risk prediction.
 
 This is not a habit tracker.
-It is a personal nervous-system diagnostic console.
+It is a cognitive performance console.
 
 ---
 
-# 🚀 Features
+## 🚀 Features
 
-- Fully offline (no APIs, no cloud)
-- Atomic JSON storage with corruption recovery
-- Clean modular architecture
+- Structured behavioral scoring (no arbitrary mood numbers)
 - Dopamine Efficiency Score (DES)
 - Dopamine Load Score (DLS)
-- ASCII performance visualization
-- Sleep debt detection
-- Crash risk prediction
-- Weekly analytics with correlations
-- Optimal performance zone detection
-- Weighted similarity prediction engine
+- ASCII performance bar
+- Sleep debt detection (7-day window)
+- Next-day crash risk prediction
+- Overwrite/View/Cancel flow for daily entries
+- Fully offline
+- Zero external dependencies
 
 ---
 
-# 📊 Core Concepts
+## 📊 Core Metrics
 
-## Dopamine Efficiency Score (DES)
-
-Measures cognitive performance efficiency.
-
-Based on:
-- Focus
-- Mood
-- Energy
+### Dopamine Efficiency Score (DES)
+Measures cognitive output quality based on:
+- Focus (behavioral)
+- Mood (behavioral)
+- Energy (behavioral)
 - Sleep
-- Coffee (penalty)
-- Cigarettes (penalty)
+- Stimulant penalties
 
 Range: 0–10
 
-High DES = efficient brain  
-Low DES = overstimulated or sleep-deprived system  
+---
+
+### Dopamine Load Score (DLS)
+
+Measures total stimulation load:
+
+DLS = coffee + cigarettes + gaming
+
+High DLS ≠ high performance.
 
 ---
 
-## Dopamine Load Score (DLS)
+### Sleep Debt
 
-Measures total stimulation input.
-
-Formula:
-
-DLS = coffee + cig + gaming
-
-High DLS does NOT mean high performance.
-
-You want:
-Moderate DLS + High DES
+Tracks cumulative sleep deficit over last 7 entries.
 
 ---
 
-## Sleep Debt
+### Crash Risk
 
-Calculates accumulated sleep deficit over last 7 entries.
-
-Helps detect:
-- Chronic fatigue
-- Performance instability
-- Cognitive decline risk
-
----
-
-## Crash Risk Prediction
-
-Predicts next-day cognitive crash risk using:
-
+Predicts next-day instability based on:
 - Sleep level
 - Stimulation load
 - Cigarettes
 - Coffee
 
-Outputs:
-- LOW
-- MODERATE
-- HIGH
+Outputs: LOW / MODERATE / HIGH
 
 ---
 
-# 🖥 Commands
+## 🖥 Usage
 
-Run using:
-Make sure to run in `Dopamine Calc` folder
-python -m dop.main <command>
+Run with:
 
-Available commands:
+```
+python -m dop e
+```
 
-- e        Log daily entry
-- s        Show today’s summary
-- w        Weekly analysis
-- o        Detect optimal performance zones
-- predict  Predict mood & focus from hypothetical inputs
+Commands:
 
----
-
-# 🧪 Example Usage
-
-Log a new entry:
-
-python -m dop.main e
-
-Weekly analysis:
-
-python -m dop.main w
-
-Optimal zone detection:
-
-python -m dop.mail o
-
-Prediction mode:
-
-python -m dop predict
+- `e` → Log daily entry
+- `s` → Show today’s summary
+- `w` → Weekly analysis
+- `o` → Optimal zone detection
+- `predict` → Hypothetical performance prediction
 
 ---
+
+## 🧠 Philosophy
+
+Track stimulus → Measure behavior → Detect patterns → Optimize system.
+
+Treat your brain like a performance engine.
+
 
 # 📁 Project Structure
 ```
@@ -160,15 +126,6 @@ Treat your cognitive state like a system.
 Tune performance intentionally.
 
 ---
-
-# 🔮 Future Improvements
-
-- SQLite backend
-- ASCII weekly trend graphs
-- Adaptive DES weighting
-- Export to CSV
-- Encrypted storage
-- Hardcore discipline mode
 
 ---
 

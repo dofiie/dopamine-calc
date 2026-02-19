@@ -1,10 +1,11 @@
 """CLI entrypoint for DOP (Offline Dopamine Optimization CLI)."""
-
 from __future__ import annotations
 
 import argparse
 from datetime import date, timedelta
-from dop.utils import Color, progress_bar, float_fmt
+
+from dop.models import Entry
+
 from dop.analytics import (
     average,
     calculate_des,
@@ -17,22 +18,20 @@ from dop.analytics import (
     calculate_mood,
     calculate_energy,
     detect_sleep_debt,
-    predict_crash_risk
+    predict_crash_risk,
 )
 
-from dop.storage import load_entries
-from dop.analytics import (
-    average,
-    calculate_des,
-    calculate_dls,
-    detect_flags,
-    detect_optimal_zone,
-    pearson_correlation,
-    predict_from_history,
+from dop.storage import (
+    StorageError,
+    add_entry,
+    get_entry_by_date,
+    load_entries,
+    remove_entry_by_date,
 )
-from dop.models import Entry
-from dop.storage import StorageError, add_entry, get_entry_by_date, load_entries
+
 from dop.utils import (
+    Color,
+    progress_bar,
     float_fmt,
     prompt_value,
     today_iso,
@@ -240,22 +239,43 @@ def print_entry_summary(entry: Entry, title: str = "System Report") -> None:
 
     print(f"{Color.CYAN}{Color.BOLD}═══════════════════════════════════════{Color.RESET}\n")
 
-  
-    flags = detect_flags(entry)
-    if flags:
-        print(f"\n{Color.RED}Alerts:{Color.RESET}")
-        for flag in flags:
-            print(f"  - {flag}")
-
-    print(f"{Color.CYAN}{Color.BOLD}═══════════════════════════════════════{Color.RESET}\n")
-
-
 
 def handle_entry() -> None:
-    """Command handler for `dop e`."""
+    """Command handler for `dop e` with view/overwrite/cancel logic."""
+
+    today = today_iso()
+    existing = get_entry_by_date(today)
+
+    if existing:
+        print(f"\nEntry already exists for date {today}.")
+        print("1) View")
+        print("2) Overwrite")
+        print("3) Cancel")
+
+        while True:
+            choice = input("Select (1-3): ").strip()
+
+            if choice == "1":
+                print_entry_summary(existing, "Existing Entry")
+                return
+
+            elif choice == "2":
+                print("\nOverwriting existing entry...\n")
+                remove_entry_by_date(today)
+                break
+
+            elif choice == "3":
+                print("Cancelled.")
+                return
+
+            else:
+                print("Invalid selection. Please choose 1, 2, or 3.")
+
+    # If no existing entry OR overwrite selected
     entry = prompt_entry()
     add_entry(entry)
     print_entry_summary(entry, "Entry saved")
+
 
 
 def handle_summary() -> None:
